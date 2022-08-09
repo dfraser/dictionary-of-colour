@@ -3,7 +3,7 @@ package org.capybara.dictionaryofcolour;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
@@ -15,17 +15,18 @@ public class RestController {
 
     @GetMapping("/randomHex/{number}")
     String[] getRandomHex(@PathVariable int number) {
-        var combination = colourService.getRandomCombination();
-        var colours = colourService.getCombination(combination);
-        var hexColours = ColourService.extractHex(colours.get());
-        if (hexColours.size() >= number) {
-            return hexColours.subList(0, number).toArray(String[]::new);
-        } else {
-            var expandedList = new ArrayList<String>();
-            for (int i = 0; i < number; i++) {
-                expandedList.add(hexColours.get(i % hexColours.size()));
-            }
-            return expandedList.toArray(String[]::new);
-        }
+        var combination = colourService.getCombination(colourService.getRandomCombination()).get();
+        var colours = ColourService.getSpecificNumberOfColours(combination, number);
+        var hexColours = ColourService.extractHex(colours);
+        return hexColours.toArray(String[]::new);
     }
+
+    @GetMapping("/randomRgb/{number}")
+    String[] getRandomRgb(@PathVariable int number) {
+        var combination = colourService.getCombination(colourService.getRandomCombination()).get();
+        var colours = ColourService.getSpecificNumberOfColours(combination, number);
+        var rgbList = colours.stream().map(c -> String.format("%s,%s,%s", c.rgb().get(0), c.rgb().get(1), c.rgb().get(2))).toList();
+        return rgbList.toArray(String[]::new);
+    }
+
 }

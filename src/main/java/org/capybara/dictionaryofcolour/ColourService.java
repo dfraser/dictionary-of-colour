@@ -2,6 +2,7 @@ package org.capybara.dictionaryofcolour;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.capybara.dictionaryofcolour.model.Colour;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -45,8 +46,30 @@ public class ColourService {
         return combinationList.get(random.nextInt(combinationList.size()));
     }
 
-    public static List<String> extractHex(List<Colour> colourList) {
-        return colourList.stream().map(c -> c.hex()).collect(Collectors.toList());
+    public static List<String> extractHex(@NonNull List<Colour> colourList) {
+        Objects.requireNonNull(colourList);
+        return colourList.stream().map(Colour::hex).collect(Collectors.toList());
+    }
+
+    /**
+     * Forces a colour combination to have a certain number of colours. If it doesn't have enough,
+     * duplicate colours until we reach the right size. If it doesn't have enough, truncate it.
+     * @param combination a list of colours from which to generate the list
+     * @param number the number of colours in the result
+     * @return a list containing the specified number of colours.
+     */
+    public static List<Colour> getSpecificNumberOfColours(@NonNull List<Colour> combination, int number) {
+        Objects.requireNonNull(combination);
+        assert(combination.size() > 0);
+        if (combination.size() >= number) {
+            return combination.subList(0, number);
+        } else {
+            var expandedList = new ArrayList<Colour>();
+            for (int i = 0; i < number; i++) {
+                expandedList.add(combination.get(i % combination.size()));
+            }
+            return expandedList;
+        }
     }
 
     List<Integer> getCombinationList() {

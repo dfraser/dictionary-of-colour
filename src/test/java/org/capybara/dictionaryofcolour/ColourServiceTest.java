@@ -40,7 +40,6 @@ class ColourServiceTest {
 
     }
 
-
     @Test
     void extractHex() throws IOException {
         var cs = new ColourService();
@@ -49,5 +48,4 @@ class ColourServiceTest {
         assertTrue(colours.isPresent());
         log.info("Hex for {}: "+ColourService.extractHex(colours.get()), randomCombination);
     }
-
 }

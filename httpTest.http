@@ -1,1 +1,4 @@
 GET http://localhost:8080/randomHex/3
+
+###
+GET http://localhost:8080/randomRgb/3
