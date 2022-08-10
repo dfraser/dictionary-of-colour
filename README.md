@@ -8,6 +8,8 @@ Call `/randomRgb/{number}` or `/randomHex/{number}` to get yourself that number 
 
 Using colors.json database from: [mattdesl / dictionary-of-colour-combinations](https://github.com/mattdesl/dictionary-of-colour-combinations)
 
-Project Github: https://github.com/dfraser/dictionary-of-colour
+Github: https://github.com/dfraser/dictionary-of-colour
+
+Docker: https://hub.docker.com/r/dfraser2/dictionary-of-colour
 
 I needed some nice colours for some RGB light bulbs.  A co-worker suggested this dictionary.
